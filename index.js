@@ -85,21 +85,26 @@ app.get("/users/:id", (req, res) => {
 
 // GET: Returns a transaction JSON
 app.get("/transactions/:id", (req, res) => {
-
   res.json(transaction);
 });
 
 // POST: Make Payment Success
 app.post("/payment/success", (req, res) => {
   // update transaction status to 'success'
-  transaction.paymentStatus = { label: "Payment Success", value: "PAYMENT_SUCCESS" };
+  transaction.paymentStatus = {
+    label: "Payment Success",
+    value: "PAYMENT_SUCCESS",
+  };
   res.status(200).send({ status: "success" });
 });
 
 // POST: Make Payment Fail
 app.post("/payment/fail", (req, res) => {
   // update transaction status to 'fail'
-  transaction.paymentStatus = { label: "Payment Failed", value: "PAYMENT_FAIL" };
+  transaction.paymentStatus = {
+    label: "Payment Failed",
+    value: "PAYMENT_FAIL",
+  };
   res.status(400).send({ status: "fail" });
 });
 
@@ -111,6 +116,10 @@ app.post("/transaction/:id", (req, res) => {
     .status(200)
     .send({ status: "success", transactionId: transaction.transactionId });
 });
+
+// const server = serverless.createServer(app);
+
+// exports.handler = (event, context) => serverless.proxy(server, event, context);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
