@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seyi-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: seyi-api
+  template:
+    metadata:
+      labels:
+        app: seyi-api
+    spec:
+      containers:
+      - name: seyi-api
+        image: seyi-api:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
