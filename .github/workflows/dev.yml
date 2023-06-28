@@ -33,7 +33,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/my-app:latest
+          tags: ${{ steps.login-ecr.outputs.registry }}/seyi-api:latest
 
       - name: Setup AWS CLI
         run: |
