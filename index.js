@@ -10,7 +10,7 @@ let user = {
   status: "APPROVED",
   working: "yes",
   oop: "jjjllllf",
-  test: "pass",
+  test: "passing",
 };
 
 let transaction = {
@@ -116,6 +116,6 @@ app.post("/transaction/:id", (req, res) => {
 
 // exports.handler = (event, context) => serverless.proxy(server, event, context);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server is running on port 3000");
 });
