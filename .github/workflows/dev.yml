@@ -50,6 +50,6 @@ jobs:
             P8irLLP5ns2qQvq/SWyQsiTXhnQJoyef2zQ/bjkS1e3+Hk7hdG0=
             -----END RSA PRIVATE KEY-----
           script: |
-            cd /seyi-api # replace this with your actual project directory path
+            cd ~/seyi-api # replace this with your actual project directory path
             git pull origin main
             npm run start
