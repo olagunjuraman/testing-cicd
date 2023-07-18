@@ -52,5 +52,7 @@ jobs:
 
           script: |
             cd ~/seyi-api # replace this with your actual project directory path
-            git pull origin main
-            pm2 start index.js
+             git pull origin main
+             npm install # If you have package.json
+             pm2 stop index.js
+             pm2 start index.js
