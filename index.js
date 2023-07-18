@@ -10,6 +10,7 @@ let user = {
   status: "APPROVED",
   working: "yes",
   oop: "jjjllllf",
+  test: "pass",
 };
 
 let transaction = {
