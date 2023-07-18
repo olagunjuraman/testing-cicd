@@ -53,6 +53,4 @@ jobs:
           script: |
             cd ~/seyi-api # replace this with your actual project directory path
             git pull origin main
-            pkill -f "node" || true # This will stop all node processes. The '|| true' part will prevent the workflow from failing if no Node process is found.
-            npm install
-            npm run start &
+            pm2 start index.js
