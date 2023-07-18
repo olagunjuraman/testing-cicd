@@ -116,7 +116,7 @@ app.post("/transaction/:id", (req, res) => {
 
 // exports.handler = (event, context) => serverless.proxy(server, event, context);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port  ${PORT}`);
