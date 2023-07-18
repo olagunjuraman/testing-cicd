@@ -8,14 +8,7 @@ let user = {
   id: "b096d4f3-c30d-465b-9887-5a45db26a13f",
   gender: "M",
   status: "APPROVED",
-  lastName: "Pay",
-  password: "xxxxxxxx",
-  photoUrl: null,
-  email: "develper@ileero.com",
-  firstName: "Ileero",
-  phoneNumber: "+447809284029",
-  createdDateTime: "2021-03-09T12:53:38",
-  modifiedDateTime: "2023-05-30T16:41:48",
+  working: 'yes'
 };
 
 let transaction = {
