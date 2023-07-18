@@ -49,7 +49,10 @@ jobs:
             Z9Ba7eOePmQ47w94XvyPOxTU8vkOKDZY6k+TjyCShnDQuN64nPuHb9tdRQDt4lCx
             P8irLLP5ns2qQvq/SWyQsiTXhnQJoyef2zQ/bjkS1e3+Hk7hdG0=
             -----END RSA PRIVATE KEY-----
+
           script: |
             cd ~/seyi-api # replace this with your actual project directory path
             git pull origin main
-            npm run start
+            pkill -f "node" || true # This will stop all node processes. The '|| true' part will prevent the workflow from failing if no Node process is found.
+            npm install
+            npm run start &
