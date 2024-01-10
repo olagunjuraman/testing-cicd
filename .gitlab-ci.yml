@@ -30,13 +30,12 @@ build_job:
     - dev
     - production
 
-
-
 prod_staging:
   stage: deploy
   image: alpine
   before_script:
     - apk add openssh-client
+    - apk add openssh-client rsync
     - eval $(ssh-agent -s)
     - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
