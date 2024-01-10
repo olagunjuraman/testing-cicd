@@ -1,0 +1,48 @@
+image: node:14-alpine
+
+variables:
+  DEPLOY_DIR: "email-service"
+  PROD_DEPLOY_DIR: "nuban/nuban-generation"
+  STAGING_DEPLOY_DIR: "email-service"
+  STAGING_BRANCH: "dev"
+  PRODUCTION_BRANCH: "production"
+  DEPLOY_COMMAND: "pm2 restart email"
+  PROD_DEPLOY_COMMAND: "pm2 restart index"
+  REPO: "gitlab.com/${CI_PROJECT_PATH}.git"
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+build_job:
+  stage: build
+  image: node:14-alpine
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - dev
+    - production
+
+
+
+prod_staging:
+  stage: deploy
+  image: alpine
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
+    - ssh -o StrictHostKeyChecking=no $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
+  only:
+    - production

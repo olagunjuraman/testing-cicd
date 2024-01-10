@@ -1,6 +1,0 @@
-version: "3"
-services:
-  discourse:
-    image: discourse/base:aarch64
-    ports:
-      - 3000:80
