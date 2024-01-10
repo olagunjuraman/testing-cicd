@@ -34,12 +34,13 @@ prod_staging:
   stage: deploy
   image: alpine
   before_script:
-    - apk add openssh-client
+    - apk update
     - apk add openssh-client rsync
-    - eval $(ssh-agent -s)
-    - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
+    - echo "StrictHostKeyChecking no" > ~/.ssh/config
+    - eval $(ssh-agent -s)
+    - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
   script:
     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
     - ssh -o StrictHostKeyChecking=no $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
