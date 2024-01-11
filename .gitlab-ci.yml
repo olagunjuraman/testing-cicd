@@ -38,15 +38,33 @@ prod_staging:
   image: alpine
   before_script:
     - apk update
-    - apk add openssh-client rsync
+    - apk add openssh-client rsync git
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
     - eval $(ssh-agent -s)
     - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
   script:
-    - npm install --only=production
-    - ssh $PROD_USER@$PROD_IP "sudo chown $PROD_USER /var/www/$PROD_DEPLOY_DIR"
-    - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR && $PROD_DEPLOY_COMMAND
+    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && sudo git pull origin production"
+    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production"
+    - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
+    - ssh $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
   only:
     - production
+# prod_staging:
+#   stage: deploy
+#   image: alpine
+#   before_script:
+#     - apk update
+#     - apk add openssh-client rsync
+#     - mkdir -p ~/.ssh
+#     - chmod 700 ~/.ssh
+#     - echo "StrictHostKeyChecking no" > ~/.ssh/config
+#     - eval $(ssh-agent -s)
+#     - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
+#   script:
+#     - ssh $PROD_USER@$PROD_IP "sudo chown $PROD_USER /var/www/$PROD_DEPLOY_DIR"
+#     - npm install --only=production
+#     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR && $PROD_DEPLOY_COMMAND
+#   only:
+#     - production
