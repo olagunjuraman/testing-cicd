@@ -35,14 +35,6 @@ build_job:
     - dev
     - production
 
-# prod_staging:
-#   script:
-#     - ssh $PROD_USER@$PROD_IP "sudo mkdir -p /var/www/$PROD_DEPLOY_DIR && sudo chown $PROD_USER /var/www/$PROD_DEPLOY_DIR"
-#     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
-#     - rsync -avz ./package.json ./package-lock.json $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
-#     # Include rsync commands for any other necessary files
-#     - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production"
-#     - ssh $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
 
 prod_staging:
   stage: deploy
@@ -56,11 +48,40 @@ prod_staging:
     - eval $(ssh-agent -s)
     - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
   script:
-    - ssh $PROD_USER@$PROD_IP "sudo mkdir -p /var/www/$PROD_DEPLOY_DIR && sudo chown $PROD_USER /var/www/$PROD_DEPLOY_DIR"
+    - ssh $PROD_USER@$PROD_IP "sudo mkdir -p /var/www/$PROD_DEPLOY_DIR"
     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
     - rsync -avz ./package.json ./package-lock.json $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
-    # Include rsync commands for any other necessary files
-    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production && $PROD_DEPLOY_COMMAND"
-    # - ssh $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
+    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production"
+    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && pm2 startOrRestart /var/www/$PROD_DEPLOY_DIR/index.js"
   only:
     - production
+
+
+
+
+
+
+
+
+
+
+# prod_staging:
+#   stage: deploy
+#   image: alpine
+#   before_script:
+#     - apk update
+#     - apk add openssh-client rsync
+#     - mkdir -p ~/.ssh
+#     - chmod 700 ~/.ssh
+#     - echo "StrictHostKeyChecking no" > ~/.ssh/config
+#     - eval $(ssh-agent -s)
+#     - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
+#   script:
+#     - ssh $PROD_USER@$PROD_IP "sudo mkdir -p /var/www/$PROD_DEPLOY_DIR && sudo chown $PROD_USER /var/www/$PROD_DEPLOY_DIR"
+#     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
+#     - rsync -avz ./package.json ./package-lock.json $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
+#     # Include rsync commands for any other necessary files
+#     - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production && $PROD_DEPLOY_COMMAND"
+#     # - ssh $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
+#   only:
+#     - production
