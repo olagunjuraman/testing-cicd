@@ -60,7 +60,7 @@ prod_staging:
     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
     - rsync -avz ./package.json ./package-lock.json $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
     # Include rsync commands for any other necessary files
-    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production"
-    - ssh $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
+    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production && $PROD_DEPLOY_COMMAND"
+    # - ssh $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
   only:
     - production
