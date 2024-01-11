@@ -22,7 +22,7 @@ build_job:
   stage: build
   image: node:14-alpine
   before_script:
-    - npm install tsc
+    - npm install typescript
   script:
     - npm install
     - npm run build
