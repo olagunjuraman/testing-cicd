@@ -45,6 +45,7 @@ prod_staging:
     - eval $(ssh-agent -s)
     - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
   script:
+    - npm install --only=production
     - ssh $PROD_USER@$PROD_IP "sudo chown $PROD_USER /var/www/$PROD_DEPLOY_DIR"
     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR && $PROD_DEPLOY_COMMAND
   only:
