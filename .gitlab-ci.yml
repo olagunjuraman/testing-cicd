@@ -45,7 +45,8 @@ prod_staging:
     - eval $(ssh-agent -s)
     - echo "$PROD_SSH_PRIV_KEY_GITLAB" | tr -d '\r' | ssh-add -
   script:
+     -ssh $PROD_USER@$PROD_IP "sudo chown $PROD_USER /var/www/$PROD_DEPLOY_DIR"
     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
-    - ssh -o StrictHostKeyChecking=no $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
+    - ssh $PROD_USER@$PROD_IP "$PROD_DEPLOY_COMMAND"
   only:
     - production
