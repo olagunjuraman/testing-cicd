@@ -7,7 +7,7 @@ variables:
   STAGING_BRANCH: "dev"
   PRODUCTION_BRANCH: "production"
   DEPLOY_COMMAND: "pm2 restart  email"
-  PROD_DEPLOY_COMMAND: "pm2 restart index.js"
+  PROD_DEPLOY_COMMAND: "pm2 start index.js"
   REPO: "gitlab.com/${CI_PROJECT_PATH}.git"
 
 cache:
@@ -51,6 +51,6 @@ prod_staging:
     - rsync -avz ./dist/ $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
     - rsync -avz ./package.json ./package-lock.json $PROD_USER@$PROD_IP:/var/www/$PROD_DEPLOY_DIR
     - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && npm install --only=production"
-    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && pm2 start /var/www/$PROD_DEPLOY_DIR/index.js"
+    - ssh $PROD_USER@$PROD_IP "cd /var/www/$PROD_DEPLOY_DIR && pm2 restart /var/www/$PROD_DEPLOY_DIR/index.js"
   only:
     - production
