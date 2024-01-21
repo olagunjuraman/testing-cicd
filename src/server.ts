@@ -4,7 +4,7 @@ const app = express();
 const PORT = 6000;
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, Kubernetes with Traefik Testing!");
+  res.send("Hello, Kubernetes with Traefik Testing!, i am happy");
 });
 
 app.listen(PORT, () => {
