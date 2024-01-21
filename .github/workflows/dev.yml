@@ -37,11 +37,12 @@ jobs:
 
       - name: Deploy to Development
         if: github.ref == 'refs/heads/dev'
-        uses: webfactory/create-aws-codedeploy-deployment@v1
+        uses: sourcetoad/aws-codedeploy-action@v1.8.1
         with:
-          application: testing
-          deployment-group: Development-StartButton
-          s3-location: bucket=testing-repo,key=StartButtonApp-dev-${{ steps.get_commit.outputs.sha }}-${{ steps.get_timestamp.outputs.timestamp }}.zip,bundleType=zip
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          aws_region: us-east-1
+          codedeploy_name: testing
+          codedeploy_group: Development-StartButton
+          s3_bucket: testing-repo
+          s3_folder: key=StartButtonApp-dev-${{ steps.get_commit.outputs.sha }}-${{ steps.get_timestamp.outputs.timestamp }}
