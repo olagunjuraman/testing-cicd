@@ -1,0 +1,63 @@
+name: App Docker Build and Push
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: "us-east-1"
+  ECR_REPO: "533267153582.dkr.ecr.us-east-1.amazonaws.com/prep-intel-app"
+
+jobs:
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # Required for requesting the JWT
+      contents: read    # Required for actions/checkout
+
+    steps:
+      - name: Checkout app code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::533267153582:role/AWS_PrepIntel_GHA_Role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build tagged Docker image
+        env:
+          IMAGE_VERSION: latest
+        run: |
+          docker build -t ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }} .
+
+      - name: Push tagged Docker image to ECR
+        run: |
+          docker push ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }}
+
+  deploy:
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        run: |
+          IMAGE_URI="${{ env.ECR_REPO }}:latest"
+          TASK_DEF=$(sed -e "s|<CONTAINER_NAME>:latest|${IMAGE_URI}|g" task-definition.json)
+          echo "::set-output name=task_definition::${TASK_DEF}"
+
+      - name: Deploy image to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task_definition }}
+          service: intel-prep-ecs-service-staging
+          cluster: intel-prep-ecs-cluster
+          wait-for-service-stability: true
+

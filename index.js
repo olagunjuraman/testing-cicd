@@ -1,0 +1,1 @@
+console.log(parseFloat('1,320.45'.replace(/,/g, '')));
