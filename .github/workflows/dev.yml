@@ -30,6 +30,14 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Assume Role Info
+        run: |
+          aws sts get-caller-identity
+      
+      - name: ECR Login Output
+        id: login
+        uses: aws-actions/amazon-ecr-login@v
+
       - name: Build tagged Docker image
         run: |
           docker build -t ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }} .
