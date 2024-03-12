@@ -1,12 +1,12 @@
 {
-    "family": "intel-prep-app-task",
+    "family": "testing",
     "executionRoleArn": "arn:aws:iam::271365062139:role/ecsTaskExecutionRole",
     "taskRoleArn": "arn:aws:iam::271365062139:role/intelPrepEcsTaskExecutionRole",
     "networkMode": "awsvpc",
     "containerDefinitions": [
       {
         "name": "testing",
-        "image": "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd",
+        "image": "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd:latest",
         "essential": true,
         "memoryReservation": 500,
         "cpu": 500,
@@ -20,6 +20,6 @@
     ],
     "requiresCompatibilities": ["EC2"],
     "cpu": "512",
-    "memory": "1024"
+    "memory": "500"
   }
   
