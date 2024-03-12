@@ -9,6 +9,7 @@ env:
   AWS_REGION: "us-east-1"
   ECR_REPO: "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd"
   IMAGE_VERSION: latest
+  AWS_SDK_LOAD_CONFIG: 1
 
 jobs:
   docker-build-and-push:
@@ -53,8 +54,6 @@ jobs:
 
   deploy:
     needs: docker-build-and-push
-    environment:
-        AWS_SDK_LOAD_CONFIG: 1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
