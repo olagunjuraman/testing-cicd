@@ -62,7 +62,7 @@ jobs:
         id: render-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ./task-definition.json
+          task-definition: task-definition.json
           container-name: my-app
           image: ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }}
   
@@ -70,6 +70,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-task-def.outputs.task-definition }}
-          service: your-ecs-service-name
+          service: testing-dev
           cluster: testing
           wait-for-service-stability: true
