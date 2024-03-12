@@ -8,6 +8,7 @@ on:
 env:
   AWS_REGION: "us-east-1"
   ECR_REPO: "public.ecr.aws/z0o0r9l1/testing-cicd"
+  IMAGE_VERSION: latest
 
 jobs:
   docker-build-and-push:
@@ -30,8 +31,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build tagged Docker image
-        env:
-          IMAGE_VERSION: latest
         run: |
           docker build -t ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }} .
 
