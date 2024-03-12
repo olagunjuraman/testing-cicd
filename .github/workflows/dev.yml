@@ -66,6 +66,7 @@ jobs:
           task-definition: task-definition.json
           container-name: testing
           image: ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }}
+          environment-variables: "AWS_SDK_LOAD_CONFIG=1"
   
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
