@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: "us-east-1"
-  ECR_REPO: "public.ecr.aws/z0o0r9l1/testing-cicd"
+  ECR_REPO: "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd"
   IMAGE_VERSION: latest
 
 jobs:
