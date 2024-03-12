@@ -59,6 +59,9 @@ jobs:
   deploy:
     needs: docker-build-and-push
     runs-on: ubuntu-latest
+    permissions:
+        id-token: write   # Required for requesting the JWT
+        contents: read    # Required for actions/checkout
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
