@@ -1,15 +1,15 @@
 {
     "family": "intel-prep-app-task",
-    "executionRoleArn": "arn:aws:ecs:us-east-1:271365062139:cluster/intel-prep-ecs-cluster",
+    "executionRoleArn": "arn:aws:iam::271365062139:role/ecsTaskExecutionRole",
     "taskRoleArn": "arn:aws:iam::271365062139:role/intelPrepEcsTaskExecutionRole",
     "networkMode": "awsvpc",
     "containerDefinitions": [
       {
-        "name": "my-app",
+        "name": "",
         "image": "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd",
         "essential": true,
-        "memoryReservation": 512,
-        "cpu": 256,
+        "memoryReservation": 500,
+        "cpu": 500,
         "portMappings": [
           {
             "containerPort": 80,
