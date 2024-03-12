@@ -53,6 +53,8 @@ jobs:
 
   deploy:
     needs: docker-build-and-push
+    environment:
+        AWS_SDK_LOAD_CONFIG: 1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
