@@ -1,5 +1,9 @@
 name: App Docker Build and Push
 
+
+
+
+
 on:
   push:
     branches: [dev]
@@ -25,8 +29,11 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::271365062139:role/AWS_PrepIntel_GHA_Role
-          aws-region: us-east-1
+ 
+         aws-access-key-id: 'AKIAT6LU6HX56ZHPFFWJ' 
+         aws-secret-access-key: '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' 
+         aws-region: us-east-1
+
 
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
