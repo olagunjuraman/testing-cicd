@@ -58,18 +58,18 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v2
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        run: |
-            IMAGE_URI="${{ env.ECR_REPO }}:latest"
-            TASK_DEF=$(sed -e "s|<CONTAINER_NAME>:latest|${IMAGE_URI}|g" task-definition.json)
-            echo "::set-output name=task_definition::${TASK_DEF}"
-
-      - name: Deploy image to Amazon ECS
+      - name: Render Amazon ECS task definition
+        id: render-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ./task-definition.json
+          container-name: my-app
+          image: ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }}
+  
+      - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def.outputs.task_definition }}
-          service: intel-prep-ecs-service-staging
-          cluster: intel-prep-ecs-cluster
+          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+          service: your-ecs-service-name
+          cluster: testing
           wait-for-service-stability: true
-
