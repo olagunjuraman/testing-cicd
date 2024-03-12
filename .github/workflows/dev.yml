@@ -33,8 +33,7 @@ jobs:
         env:
           IMAGE_VERSION: latest
         run: |
-          docker build -t ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }} .
-
+              docker build -t testing-cicd .
       - name: Push tagged Docker image to ECR
         run: |
           docker push ${{ env.ECR_REPO }}:${{ env.IMAGE_VERSION }}
