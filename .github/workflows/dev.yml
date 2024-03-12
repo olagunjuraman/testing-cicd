@@ -61,9 +61,9 @@ jobs:
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         run: |
-          IMAGE_URI="${{ env.ECR_REPO }}:latest"
-          TASK_DEF=$(sed -e "s|<CONTAINER_NAME>:latest|${IMAGE_URI}|g" task-definition.json)
-          echo "::set-output name=task_definition::${TASK_DEF}"
+            IMAGE_URI="${{ env.ECR_REPO }}:latest"
+            TASK_DEF=$(sed -e "s|<CONTAINER_NAME>:latest|${IMAGE_URI}|g" task-definition.json)
+            echo "::set-output name=task_definition::${TASK_DEF}"
 
       - name: Deploy image to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
