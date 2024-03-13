@@ -8,7 +8,7 @@
         "name": "testing",
         "image": "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd:latest",
         "essential": true,
-        "memoryReservation": 500,
+        "memory": 500,
         "cpu": 500,
         "portMappings": [
           {
@@ -18,7 +18,7 @@
         ]
       }
     ],
-    "requiresCompatibilities": ["EC2"],
+    "requiresCompatibilities": ["FARGATE"],
     "cpu": "512",
     "memory": "500"
   }
