@@ -8,8 +8,8 @@
         "name": "testing",
         "image": "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd:latest",
         "essential": true,
-        "memory": 500,
-        "cpu": 500,
+        "memory": 1024,
+        "cpu": 512,
         "portMappings": [
           {
             "containerPort": 80,
@@ -20,6 +20,6 @@
     ],
     "requiresCompatibilities": ["FARGATE"],
     "cpu": "512",
-    "memory": "500"
+    "memory": "1024"
   }
   
