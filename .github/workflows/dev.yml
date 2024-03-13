@@ -1,9 +1,5 @@
 name: App Docker Build and Push
 
-
-
-
-
 on:
   push:
     branches: [dev]
@@ -86,6 +82,6 @@ jobs:
 
         with:
           task-definition: ${{ steps.render-task-def.outputs.task-definition }}
-          service: testing-dev
-          cluster: testing
+          service: intel-prep-ecs-service
+          cluster: intel-prep-ecs-cluster
           wait-for-service-stability: true
