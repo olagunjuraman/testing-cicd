@@ -5,7 +5,7 @@
     "networkMode": "awsvpc",
     "containerDefinitions": [
       {
-        "name": "testing",
+        "name": "webserver",
         "image": "271365062139.dkr.ecr.us-east-1.amazonaws.com/testing-cicd:latest",
         "essential": true,
         "memory": 1024,
